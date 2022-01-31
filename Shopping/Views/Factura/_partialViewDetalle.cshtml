@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Infraestructure.vendetfactura>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detalle de la Compra</title>
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.impuesto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.totallinea)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nombre)
+        </td>
+        <td>
+            <input class="form-control text-box single-line" id="cantidad" name="cantidad" type="number" value="@item.cantidad" onchange="callChangecant('@item.Cod_articulo','@item.secuencia',this.value)"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precio)
+        </td>
+        <td>
+            @{
+                if (item.Cod_articulo.Equals("D205"))
+                {
+                    <input class="form-control text-box single-line" id="porDescuento" name="porDescuento" type="number" value="@item.Descuento"  readonly/>
+                }
+                else
+                {
+                    <input class="form-control text-box single-line" id="porDescuento" name="porDescuento" type="number" value="@item.Descuento" onchange="callChangedescuento('@item.Cod_articulo','@item.secuencia',this.value)" />
+                }
+            }
+
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.impuesto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.totallinea)
+        </td>
+    </tr>
+    }
+    
+    </table>
+</body>
+</html>

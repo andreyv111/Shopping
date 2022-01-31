@@ -22,6 +22,8 @@ namespace Infraestructure
     
         public string cod_articulo { get; set; }
         public string Nombre { get; set; }
+        public Nullable<decimal> PRECIO { get; set; }
+        public Nullable<double> IMPUESTO { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<vendetfactura> vendetfactura { get; set; }

@@ -1,0 +1,281 @@
+﻿@model Infraestructure.venfactura
+
+@{
+    ViewBag.Title = "Crear Factura";
+}
+
+<h2>Crear Factura</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+            <div class="col-md-8">
+                <div class="form-group">
+                    <label class="control-label col-md-3" for="articuloNombre">Articulo:</label>
+                    <div class="col-md-8">
+                        <input class=" form-control text-box single-line" id="articuloNombre" name="articuloNombre" type="text" value="">
+                        <div class="col-md-12 text-center">
+                            <button type="button" class="btn btn-primary" onclick="BUSCARaRTICULO()">Buscar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div id="result"></div>
+        </div>
+
+        <div class="col-md-8">
+            <div id="result2"></div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-primary" onclick="GuardarFactura()">Buscar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*JQUERY UNOBTRUSIVE PARA Ajax.BeginForm()*@
+    @Scripts.Render("~/bundles/jqueryajax")
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
+    <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$("#cedula").inputmask("mask", { "mask": "9-9999-9999" });
+        });
+    </script>
+    <script>
+        function Validate() {
+            var vcedula = $("#Usuario").val();
+            var vpass = $("#password").val();
+            $.ajax({
+                url: '@Url.Action("Create", "Login")',
+                data: { ppassword: vcedula, pcodUsuaruo: vpass },
+                type: "POST",
+                success: function (response) {
+                    if (response.action == false) {
+                        var myValue = response.msn;
+                        swal('Oops...',
+                            myValue,
+                            'error');
+                    } else {
+                        if (response.action  !="actualiza") {
+                      swal({
+                            title: "",
+                            text: "Bienvenido",
+                            type: "success",
+                            timer: 3000
+                        }).then(function () {
+                            window.location.href = '@Url.Action("Index","Home")'
+                        });
+                        } else {
+                        swal({
+                            title: "",
+                            text: "Bienvenido",
+                            type: "success",
+                            timer: 3000
+                        }).then(function () {
+                            window.location.href = '@Url.Action("actualizaClave", "Socio")'
+                        });
+                        }
+                    }
+                }, failure: function (response) {
+                    alert(response);
+                }, error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+    </script>
+
+    <script>
+        function BUSCARaRTICULO() {
+                   var vnombre = $("#nombre").val();
+                          $.ajax({
+                            url: '@Url.Action("buscarArticulo", "Factura")',
+                              data: { term: vnombre},
+                            type: "POST",
+                              success: function (response) {
+                                  if (response.action == false) {
+                                      var myValue = response.msn;
+                                      swal('Oops...',
+                                          myValue,
+                                          'error');
+                                  } else {
+                                      $('#result').html(response);
+                                  }
+
+                              },
+                              failure: function (response) {
+
+                                  var myValue = response.msn;
+                                swal('Oops...',
+                                    "Error" + myValue,
+                                    'error');
+                              },
+                              error: function (response) {
+                                  var myValue = response.msn;
+                                swal('Oops...',
+                                    "Error" + myValue,
+                                    'error');
+                              }
+                          });
+    }
+    </script>
+
+    <script>
+        function AgregarArticulo(articulo) {
+                var varticulo = articulo;
+                          $.ajax({
+                            url: '@Url.Action("SeleccionarArticulo", "Factura")',
+                              data: { Articulo: varticulo},
+                            type: "POST",
+                              success: function (response) {
+                                  if (response.action == false) {
+                                      var myValue = response.msn;
+                                      swal('Oops...',
+                                          myValue,
+                                          'error');
+                                  } else {
+                                      $('#result2').html(response);
+                                  }
+
+                              },
+                              failure: function (response) {
+
+                                  var myValue = response.msn;
+                                swal('Oops...',
+                                    "Error" + myValue,
+                                    'error');
+                              },
+                              error: function (response) {
+                                  var myValue = response.msn;
+                                swal('Oops...',
+                                    "Error" + myValue,
+                                    'error');
+                              }
+                          });
+    }
+    </script>
+
+    <script>
+
+            function callChangecant(cod_articulo,secuencia,val) {
+                var vcod_articulo = cod_articulo;
+                var vval = val;
+                var vsecuencia = secuencia;
+              $.ajax({
+                            url: '@Url.Action("ActualizarCantidad", "Factura")',
+                  data: { pcod_articulo: vcod_articulo, psecuencia: vsecuencia, pval: vval},
+                            type: "POST",
+                              success: function (response) {
+                                  $('#result2').html(response);
+                            },
+                              failure: function (response) {
+                                  // Recibe los parámetros del Controller
+                                swal('Oops...',
+                                    message,
+                                    'error');
+                            },
+                            error: function (response) {
+                                swal('Oops...',
+                                    'No se puede realizar la accion',
+                                    'error');
+                            }
+                        });
+        }
+
+
+
+
+    </script>
+
+
+    <script>
+
+            function callChangedescuento(cod_articulo,secuencia,val) {
+                var vcod_articulo = cod_articulo;
+                var vval = val;
+                var vsecuencia = secuencia;
+              $.ajax({
+                            url: '@Url.Action("ActualizarDescuento", "Factura")',
+                  data: { pcod_articulo: vcod_articulo, psecuencia: vsecuencia, pval: vval},
+                            type: "POST",
+                              success: function (response) {
+                                  $('#result2').html(response);
+                            },
+                              failure: function (response) {
+                                  // Recibe los parámetros del Controller
+                                swal('Oops...',
+                                    message,
+                                    'error');
+                            },
+                            error: function (response) {
+                                swal('Oops...',
+                                    'No se puede realizar la accion',
+                                    'error');
+                            }
+                        });
+        }
+
+
+
+
+    </script>
+
+
+    <script>
+
+            function GuardarFactura() {
+                var vnombre = $("#Nombre").val();
+              $.ajax({
+                            url: '@Url.Action("GuardarFactura", "Factura")',
+                  data: { Pnombre: vnombre},
+                            type: "POST",
+                              success: function (response) {
+                                  $('#result2').html(response);
+                            },
+                              failure: function (response) {
+                                  // Recibe los parámetros del Controller
+                                swal('Oops...',
+                                    message,
+                                    'error');
+                            },
+                            error: function (response) {
+                                swal('Oops...',
+                                    'No se puede realizar la accion',
+                                    'error');
+                            }
+                        });
+        }
+
+
+
+
+    </script>
+}

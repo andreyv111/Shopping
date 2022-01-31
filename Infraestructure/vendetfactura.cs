@@ -16,12 +16,13 @@ namespace Infraestructure
     {
         public int Documento { get; set; }
         public int secuencia { get; set; }
-        public string articulo { get; set; }
+        public string Cod_articulo { get; set; }
         public string nombre { get; set; }
         public decimal Precio { get; set; }
         public double Descuento { get; set; }
         public decimal impuesto { get; set; }
-        public string totallinea { get; set; }
+        public decimal totallinea { get; set; }
+        public Nullable<double> cantidad { get; set; }
     
         public virtual inv_articulo inv_articulo { get; set; }
         public virtual venfactura venfactura { get; set; }

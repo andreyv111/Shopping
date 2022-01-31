@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Shopping.Models.Articulo>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>_partialviewArticulo</title>
+</head>
+<body>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.cod_articulo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PRECIO)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cod_articulo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PRECIO)
+            </td>
+            <td>
+                <div class="col-md-12 text-center">
+                    <button type="button" class="btn btn-primary" onclick="AgregarArticulo('@item.cod_articulo')">Agregar Articulo</button>
+                </div>
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

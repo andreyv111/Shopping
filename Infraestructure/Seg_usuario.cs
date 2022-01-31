@@ -16,5 +16,6 @@ namespace Infraestructure
     {
         public string Cod_usuario { get; set; }
         public string password { get; set; }
+        public string Nombre { get; set; }
     }
 }

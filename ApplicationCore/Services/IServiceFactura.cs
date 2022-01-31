@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Infraestructure;
 
- namespace ApplicationCore.Services
+namespace ApplicationCore.Services
 {
-    public interface IServiceSeg_usuario
+    interface IServiceFactura
     {
-         Seg_usuario BuscarUsuario(string pcod_usuario, String ppassword);
+         string Guardarfactura(venfactura encfactura, List<vendetfactura> detallefactura);
     }
 }

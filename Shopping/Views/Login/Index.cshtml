@@ -1,0 +1,162 @@
+﻿@model Shopping.Models.Login
+
+@{
+    ViewBag.Title = "Login";
+}
+
+@{
+    Layout = "~/Views/Shared/_login.cshtml";
+}
+
+
+
+
+
+@using (Html.BeginForm())
+{
+    <br />
+    <br />
+    <br />
+    <br />
+    @Html.AntiForgeryToken()
+    <form id="form1" runat="server">
+        <div class="container">
+            <div class="row">
+                @*<div class="col-lg-9 col-md-6 col-sm-6 col-xl-8 " style="margin: auto; float: initial; padding-top: 3% ; ">*@
+                <div class="row userInfo">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" style="text-align: center; font-weight: bold">
+                                <a class="collapseWill"></a>
+                            </h3>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body">
+                                <div class="col-md-12 center-block">
+                                    <div class="well well-sm center-block">
+                                        <fieldset>
+                                            <div class="form-group center-block">
+                                                <img src="https://nsposweb.com/images/blog/Julio_/que-es-un-punto-de-venta-en-la-nube-y-punto-de-venta-android.jpg" class="img-thumbnail center-block" alt="Cinque Terre">
+                                                <div class="col-md- center-block"></div>
+                                                <div class="form-group" >
+                                                    @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-4 col-md-offset-4 text-center" })
+                                                    <div class="col-md-5">
+                                                        @Html.EditorFor(model => model.Usuario, new { htmlAttributes = new { @class = "form-control col-md-8 col-md-offset-11 text-center" } })
+                                                        @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                          
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "control-label col-md-4 col-md-offset-4 text-center" })
+                                                    <div class="col-md-5">
+                                                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control col-md-8 col-md-offset-11 text-center" } })
+                                                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                    </div>
+                                                    <br />
+                                                    <div class="col-md-8">
+                                                        <div class="input-group">
+                                                            <input type="button" value="Acceder" class="btn btn-success  col-md-6 col-md-offset-6 text-center" onclick="Validate();" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-heading">
+                            <div class="panel-title" style="text-align: right">
+                                @Html.ActionLink("Forgot Username or Password?", "recuperarpassword", "Login")
+                                @*<a class="collapseWill" href="~/Views/Login/View.cshtml" style="font-size: x-small">
+                                        Forgot Username or Password?
+                                    </a>*@
+                            </div>
+                            <div class="panel-title" style="text-align: right">
+                                <a class="collapseWill" href="" style="font-size: x-small">
+                                    VERSION 2.0
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*</div>*@
+            </div>
+        </div>
+    </form>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    @*JQUERY UNOBTRUSIVE PARA Ajax.BeginForm()*@
+    @Scripts.Render("~/bundles/jqueryajax")
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type='text/javascript' src='http://code.jquery.com/jquery-1.11.0.js'></script>
+    <script type='text/javascript' src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+    <script>
+        $(document).ready(function () {
+            //$("#cedula").inputmask("mask", { "mask": "9-9999-9999" });
+        });
+    </script>
+    <script>
+        function Validate() {
+            var vcedula = $("#Usuario").val();
+            var vpass = $("#password").val();
+            $.ajax({
+                url: '@Url.Action("Create", "Login")',
+                data: { ppassword: vcedula, pcodUsuaruo: vpass },
+                type: "POST",
+                success: function (response) {
+                    if (response.action == false) {
+                        var myValue = response.msn;
+                        swal('Oops...',
+                            myValue,
+                            'error');
+                    } else {
+                        if (response.action  !="actualiza") {
+                      swal({
+                            title: "",
+                            text: "Bienvenido",
+                            type: "success",
+                            timer: 3000
+                        }).then(function () {
+                            window.location.href = '@Url.Action("Index","Home")'
+                        });
+                        } else {
+                        swal({
+                            title: "",
+                            text: "Bienvenido",
+                            type: "success",
+                            timer: 3000
+                        }).then(function () {
+                            window.location.href = '@Url.Action("actualizaClave", "Socio")'
+                        });
+                        }
+                    }
+                }, failure: function (response) {
+                    alert(response);
+                }, error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+    </script>
+}
