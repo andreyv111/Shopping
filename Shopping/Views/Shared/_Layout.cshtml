@@ -1,10 +1,37 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: var(--bs-body-font-family);
+            font-size: var(--bs-body-font-size);
+            font-weight: var(--bs-body-font-weight);
+            line-height: var(--bs-body-line-height);
+            color: var(--bs-body-color);
+            text-align: var(--bs-body-text-align);
+            background-color: var(--bs-body-bg);
+            -webkit-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            font: 400 15px/1.8 Lato, sans-serif;
+            color: #777;
+           /**/ /*background-image: url('https://www.banamex.com/pymes/crecimiento/img/desktop/pymes-crecimiento-fondos.jpg');*/
+            background-position: center center; /* Para que la imagen de fondo no se repita */
+            background-repeat: no-repeat; /* La imagen se fija en la ventana de visualización para que la altura de la imagen no supere a la del contenido */
+            background-attachment: fixed; /* La imagen de fondo se reescala automáticamente con el cambio del ancho de ventana del navegador */
+            background-size: cover; /* Se muestra un color de fondo mientras se está cargando la imagen de fondo o si hay problemas para cargarla */
+            background-color: #66999;
+            padding-top: 0px;
+        }
+    </style>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
@@ -21,7 +48,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Facturacion", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Facturacion", "Create", "Factura")</li>
                     <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
                     <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
                 </ul>

@@ -258,7 +258,23 @@
                   data: { Pnombre: vnombre},
                             type: "POST",
                               success: function (response) {
-                                  $('#result2').html(response);
+                                  if (response.action == false) {
+                                      var myValue = response.msn;
+                                      swal('Oops...',
+                                          myValue,
+                                          'error');
+                                  } else {
+
+                                      swal({
+                                          title: "success...",
+                                          text: "Se guardo correctamente la factura!",
+                                          type: "success",
+                                          timer: 3000
+                                      }).then(function () {
+                                      window.location.href='@Url.Action("Index","Home")'
+                                      });
+                                  }
+
                             },
                               failure: function (response) {
                                   // Recibe los parámetros del Controller
